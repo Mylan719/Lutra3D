@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/lutra3d/static/css/main.abd64e84.css",
+    "main.js": "/lutra3d/static/js/main.58d99967.js",
+    "static/js/787.dbc53828.chunk.js": "/lutra3d/static/js/787.dbc53828.chunk.js",
+    "index.html": "/lutra3d/index.html",
+    "main.abd64e84.css.map": "/lutra3d/static/css/main.abd64e84.css.map",
+    "main.58d99967.js.map": "/lutra3d/static/js/main.58d99967.js.map",
+    "787.dbc53828.chunk.js.map": "/lutra3d/static/js/787.dbc53828.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.abd64e84.css",
+    "static/js/main.58d99967.js"
+  ]
+}
