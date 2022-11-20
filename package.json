@@ -1,0 +1,16 @@
+{
+  "homepage": "http://mylan719.github.io/lutra3d",
+  "name": "mylan719",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
+  }
+}
