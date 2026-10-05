@@ -123,16 +123,17 @@ The header appears on every view: logo and “Lutra Design” home link on the l
 ### Gallery
 
 - Load the index, then load listed project files concurrently. Preserve index order regardless of response order.
-- Render each project as one anchor tile containing a photo collage and its title.
+- Render each project as a card with a project anchor containing a photo collage and its title, plus optional resource badges below the title. Keep resource anchors outside the project anchor.
 - Collage layouts: one photo fills the tile; two use equal columns; three use a large left photo and two stacked right photos; four use a 2×2 grid.
 - Use CSS Grid with a 4px gap. For three photos, the first spans both rows of the left column; the remaining two fill the right column from top to bottom. Other layouts use JSON order, left to right then top to bottom. Apply a photo-count class in JavaScript; all layout rules stay in CSS. Photos do not overlap.
 - Use a consistent 4:3 collage frame and `object-fit: cover`. Show the complete title below it, wrapping when necessary.
-- Clicking anywhere on the tile opens its detail route. No description or resource links appear on the tile.
+- Clicking the photos or title opens its detail route. Optional resource badges open their HTTPS destinations in the same tab. No description appears on the tile.
 - Empty gallery: “No projects yet.”
 
 ### Project detail
 
-- Show “Back to Gallery,” title, description, optional resource links, and all photos in JSON order.
+- Show “Back to Gallery,” title, optional resource badges directly under the title, description, and all photos in JSON order.
+- Each resource badge has its JSON label and a decorative local icon. Select GitHub, Thingiverse, or Printables icons by URL hostname, including subdomains; use a generic link icon for other resources. Preserve JSON order and hide the badge row when links are absent or empty.
 - Display photos at their natural aspect ratio without cropping, in a responsive grid; one column on small screens, two on wider screens.
 - Resource links open in the same tab with descriptive labels. Do not embed third-party content.
 - Unknown or unlisted folder: “Project not found.” A listed project with unavailable/invalid data shows “This project could not be loaded” and a retry action.

@@ -1,0 +1,29 @@
+{
+  "title": "Sample — workshop tool holder",
+  "publishedDate": "2026-10-03",
+  "description": "Demonstration content for Lutra Design. The images are illustrative studies, not photographs of completed work.\n\nReplace this project with your own description and local photos, or remove its folder to unpublish it.",
+  "photos": [
+    {
+      "file": "view-1.png",
+      "alt": "Illustrative modular holder study, view 1"
+    },
+    {
+      "file": "view-2.png",
+      "alt": "Illustrative modular holder study, view 2"
+    },
+    {
+      "file": "view-3.png",
+      "alt": "Illustrative modular holder study, view 3"
+    },
+    {
+      "file": "view-4.png",
+      "alt": "Illustrative modular holder study, view 4"
+    }
+  ],
+  "tilePhotos": [
+    "view-1.png",
+    "view-2.png",
+    "view-3.png",
+    "view-4.png"
+  ]
+}

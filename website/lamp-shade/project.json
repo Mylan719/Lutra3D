@@ -1,0 +1,14 @@
+{
+  "title": "Sample — ribbed lamp shade",
+  "publishedDate": "2026-10-04",
+  "description": "Demonstration content for Lutra Design. The images are illustrative studies, not photographs of completed work.\n\nReplace this project with your own description and local photos, or remove its folder to unpublish it.",
+  "photos": [
+    {
+      "file": "view-1.png",
+      "alt": "Illustrative ribbed lamp shade study, view 1"
+    }
+  ],
+  "tilePhotos": [
+    "view-1.png"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "items": [
+    { "id": "sample-001", "commissionedDate": "2026-10-05", "title": "Sample — replacement enclosure", "customer": "Example customer" },
+    { "id": "sample-002", "commissionedDate": "2026-10-03", "title": "Sample — workshop tool holders", "customer": "Example workshop" },
+    { "id": "sample-003", "commissionedDate": "2026-10-03", "title": "Sample — custom planter", "customer": "Example studio" }
+  ]
+}

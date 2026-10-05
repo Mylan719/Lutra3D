@@ -1,16 +1,12 @@
 {
-  "homepage": "http://mylan719.github.io/lutra3d",
-  "name": "mylan719",
-  "version": "0.1.0",
+  "name": "lutra-design",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
   "scripts": {
-    "start": "react-scripts start",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "gh-pages": "^4.0.0"
+    "build": "node scripts/build-site.js",
+    "test": "node --test",
+    "preview": "node scripts/preview.js"
   }
 }

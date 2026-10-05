@@ -1,0 +1,24 @@
+{
+  "title": "Sample — geometric planter",
+  "publishedDate": "2026-10-03",
+  "description": "Demonstration content for Lutra Design. The images are illustrative studies, not photographs of completed work.\n\nReplace this project with your own description and local photos, or remove its folder to unpublish it.",
+  "photos": [
+    {
+      "file": "view-1.png",
+      "alt": "Illustrative geometric planter study, view 1"
+    },
+    {
+      "file": "view-2.png",
+      "alt": "Illustrative geometric planter study, view 2"
+    },
+    {
+      "file": "view-3.png",
+      "alt": "Illustrative geometric planter study, view 3"
+    }
+  ],
+  "tilePhotos": [
+    "view-1.png",
+    "view-2.png",
+    "view-3.png"
+  ]
+}
