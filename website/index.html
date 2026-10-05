@@ -12,7 +12,7 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header container">
-    <a class="brand" href="#/gallery"><img src="assets/logo.png" width="48" height="40" alt=""><span>Lutra Design</span></a>
+    <a class="brand" href="#/gallery"><span class="brand-mark"><img src="assets/logo.png" width="48" height="40" alt=""></span><span class="brand-copy"><span class="brand-name">Lutra Design</span><span class="brand-tagline">3D prints & little ideas</span></span></a>
     <nav aria-label="Main navigation"><a href="#/gallery" data-nav="gallery">Gallery</a><a href="#/queue" data-nav="queue">Queue</a></nav>
   </header>
   <main id="main-content" class="container" tabindex="-1"></main>
@@ -20,12 +20,12 @@
   <noscript><p class="container">JavaScript is needed to display the gallery, project details, and queue.</p></noscript>
   <footer class="container site-footer">Lutra Design · Made with care, layer by layer.</footer>
   <template id="gallery-view"><section><div class="view-heading"><p class="eyebrow">Ideas made tangible</p><h1 tabindex="-1">Gallery</h1><p>Explore our designs, one project at a time.</p></div><p class="notice" data-notice hidden></p><ul class="card-grid" data-list aria-label="Projects"></ul><div data-empty></div></section></template>
-  <template id="project-card"><li><article class="project-card"><a class="project-link"><div class="collage"></div><h2></h2></a><ul class="resource-links" aria-label="Project resources" hidden></ul></article></li></template>
+  <template id="project-card"><li><article class="project-card"><a class="project-link"><div class="project-titlebar"><span class="pixel-folder" aria-hidden="true"></span><h2></h2><span class="pixel-spark" aria-hidden="true"></span></div><div class="collage"></div></a><ul class="resource-links" aria-label="Project resources" hidden></ul></article></li></template>
   <template id="photo"><figure class="photo"><img decoding="async"><figcaption hidden>Photo unavailable</figcaption></figure></template>
   <template id="project-view"><article><a class="back-link" href="#/gallery">← Back to Gallery</a><div class="view-heading"><p class="eyebrow">A Lutra Design project</p><h1 tabindex="-1"></h1><ul class="resource-links" aria-label="Project resources" hidden></ul></div><p class="description"></p><div class="detail-photos"></div></article></template>
   <template id="resource-link"><li><a class="resource-badge"><img width="18" height="18" alt="" aria-hidden="true"><span></span></a></li></template>
   <template id="queue-view"><section><div class="view-heading"><p class="eyebrow">On the workbench</p><h1 tabindex="-1">Queue</h1><p>Upcoming jobs, with the newest commissions first. This order does not indicate execution priority.</p></div><p class="notice" data-notice hidden></p><ul class="card-grid" data-list aria-label="Upcoming jobs"></ul><div data-empty></div></section></template>
-  <template id="queue-card"><li class="queue-card"><h2></h2><dl><div><dt>Customer</dt><dd data-customer></dd></div><div><dt>Date commissioned</dt><dd><time></time></dd></div></dl></li></template>
+  <template id="queue-card"><li class="queue-card"><div class="queue-titlebar"><span class="pixel-folder" aria-hidden="true"></span><h2></h2><span class="pixel-spark" aria-hidden="true"></span></div><dl><div><dt>Customer</dt><dd data-customer></dd></div><div><dt>Date commissioned</dt><dd><time></time></dd></div></dl></li></template>
   <template id="message-view"><section class="message-view"><h1 tabindex="-1"></h1><p data-message></p><button type="button" hidden>Retry</button><a href="#/gallery" hidden>Back to Gallery</a></section></template>
 </body>
 </html>

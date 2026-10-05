@@ -127,7 +127,7 @@ The header appears on every view: logo and “Lutra Design” home link on the l
 - Render each project as a card with a project anchor containing a photo collage and its title, plus optional resource badges below the title. Keep resource anchors outside the project anchor.
 - Collage layouts: one photo fills the tile; two use equal columns; three use a large left photo and two stacked right photos; four use a 2×2 grid.
 - Use CSS Grid with a 4px gap. For three photos, the first spans both rows of the left column; the remaining two fill the right column from top to bottom. Other layouts use JSON order, left to right then top to bottom. Apply a photo-count class in JavaScript; all layout rules stay in CSS. Photos do not overlap.
-- Use a consistent 4:3 collage frame and `object-fit: cover`. Show the complete title below it, wrapping when necessary.
+- Use a consistent 4:3 collage frame and `object-fit: cover`. Show the complete title above it in a bold lavender pixel-style title bar, wrapping when necessary. Use dark plum square borders, small decorative pixel icons, and a hard offset shadow on gallery cards.
 - Clicking the photos or title opens its detail route. Optional resource badges open their HTTPS destinations in the same tab. No description appears on the tile.
 - Empty gallery: “No projects yet.”
 
@@ -149,8 +149,9 @@ The header appears on every view: logo and “Lutra Design” home link on the l
 
 ## 5. Visual and accessibility rules
 
-- White background, dark text, restrained gray borders, and one muted accent color for active navigation and links.
-- System font stack; body text 16px or larger and line height around 1.5. Avoid decorative effects and unnecessary animation.
+- Pastel pixel-workshop style: pale lavender desktop background with a faint grid, cream content panels, dark plum text and square borders, lavender gallery title bars, pink section and Queue title bars, and mint navigation/button accents. Use crisp offset shadows and small decorative pixel folders and sparkles; no animation.
+- System font stack; body text 16px or larger and line height around 1.6. Use bold system monospace for headings, title bars, navigation, and badges, keeping descriptions and job details in a readable system sans-serif. No remote fonts or image filters.
+- Apply the same visual language to the framed header and footer, view headings, project descriptions and photos, resource badges, Queue cards, loading/error panels, and empty states. Decorative icons have no interaction or meaning and are hidden from assistive technology.
 - Center content in a maximum-width 1120px container, with 16px mobile and 24px desktop padding.
 - Gallery: one column below 600px, two from 600px, three from 960px; 20px gaps. Queue uses the same responsive card grid.
 - Header wraps on narrow screens without horizontal scrolling. Keep logo proportions intact, about 40px high.

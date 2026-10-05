@@ -31,3 +31,5 @@ The website root contains the page, `queue.json`, and generated `projects.json`.
 In the GitHub repository select **Settings → Pages → Source → GitHub Actions**. Commit changes to `main` to validate and publish. Pull requests targeting `main` run tests and build without deployment. Manual workflow dispatch can retry publication. The workflow grants deployment permissions only to the deployment job and cancels superseded runs on the same branch. Failed validation prevents deployment and leaves the published site available.
 
 The implementation includes hash navigation, direct project URLs, responsive photo collages, accessible loading and retry messages, partial-data warnings, broken-image fallbacks, and plain-text rendering. Tests exercise shared contracts, loader caching and retry, sorting, and publishing safety.
+
+The visual theme is a pastel pixel workshop: lavender grid background, cream panels, plum borders, bold monospace title bars, pink Queue cards, and mint action buttons. Descriptions remain in a readable system font, photographs keep their original colors, and all decorations are local HTML/CSS.
