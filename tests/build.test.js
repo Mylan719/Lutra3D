@@ -17,7 +17,7 @@ async function fixture(t) {
   return { root, source, output };
 }
 async function editProject(source, edit) {
-  const file = path.join(source, 'desk-organizer/project.json');
+  const file = path.join(source, 'projects/desk-organizer/project.json');
   const json = JSON.parse(await readFile(file, 'utf8')); edit(json); await writeFile(file, JSON.stringify(json));
 }
 async function inventory(root, prefix = '') {
@@ -30,16 +30,24 @@ async function inventory(root, prefix = '') {
 }
 test('build discovers projects, excludes unreferenced files, versions modules and is deterministic', async t => {
   const paths = await fixture(t);
-  await writeFile(path.join(paths.source, 'desk-organizer/unused.png'), 'unused');
+  await writeFile(path.join(paths.source, 'projects/desk-organizer/unused.png'), 'unused');
+  await mkdir(path.join(paths.source, 'projects/notes'));
+  await writeFile(path.join(paths.source, 'projects/notes/private.txt'), 'private');
   await mkdir(path.join(paths.source, 'notes')); await writeFile(path.join(paths.source, 'notes/private.txt'), 'private');
   const index = await buildSite(paths);
   assert.deepEqual(index.projects, ['desk-organizer','lamp-shade','planter','tool-holder']);
   const files = await inventory(paths.output);
   assert.ok(!files.some(file => /unused|private|scripts|README|workflow/.test(file)));
+  assert.ok(files.includes(path.join('projects', 'desk-organizer', 'project.json')));
+  assert.ok(files.includes(path.join('projects', 'desk-organizer', 'view-1.png')));
+  assert.ok(!files.some(file => file.startsWith(`desk-organizer${path.sep}`)));
   assert.match(await readFile(path.join(paths.output, 'index.html'), 'utf8'), /css\/styles\.css\?v=[a-f0-9]{12}/);
   assert.match(await readFile(path.join(paths.output, 'js/app.js'), 'utf8'), /\.\/data\.js\?v=[a-f0-9]{12}/);
   const first = await readFile(path.join(paths.output, 'projects.json'), 'utf8');
+  assert.equal(await readFile(path.join(paths.source, 'projects.json'), 'utf8'), first);
+  await writeFile(path.join(paths.source, 'projects.json'), '{"projects":["stale-folder"]}');
   await buildSite(paths); assert.equal(await readFile(path.join(paths.output, 'projects.json'), 'utf8'), first);
+  assert.equal(await readFile(path.join(paths.source, 'projects.json'), 'utf8'), first);
 });
 test('invalid content fails without replacing the previous artifact', async t => {
   const paths = await fixture(t); await buildSite(paths);
@@ -47,10 +55,11 @@ test('invalid content fails without replacing the previous artifact', async t =>
   await editProject(paths.source, project => { project.publishedDate = '2026-02-30'; });
   await assert.rejects(buildSite(paths), /desk-organizer.*publishedDate/);
   assert.equal(await readFile(path.join(paths.output, 'projects.json'), 'utf8'), before);
+  assert.equal(await readFile(path.join(paths.source, 'projects.json'), 'utf8'), before);
 });
 test('missing photos and required assets fail with file-specific errors', async t => {
   const paths = await fixture(t);
-  await unlink(path.join(paths.source, 'desk-organizer/view-1.png'));
+  await unlink(path.join(paths.source, 'projects/desk-organizer/view-1.png'));
   await assert.rejects(buildSite(paths), /desk-organizer.*view-1.png/);
   await unlink(path.join(paths.source, 'assets/logo.png'));
   await assert.rejects(buildSite(paths), /assets.*logo.png/);
@@ -58,10 +67,10 @@ test('missing photos and required assets fail with file-specific errors', async 
 test('invalid selections, path escapes, missing dates, duplicate IDs and malformed JSON fail', async t => {
   const paths = await fixture(t);
   for (const change of [p => { delete p.publishedDate; }, p => { p.tilePhotos = ['missing.png']; }, p => { p.photos[0].file = '../outside.png'; }]) {
-    await cp(path.join(website, 'desk-organizer/project.json'), path.join(paths.source, 'desk-organizer/project.json'));
+    await cp(path.join(website, 'projects/desk-organizer/project.json'), path.join(paths.source, 'projects/desk-organizer/project.json'));
     await editProject(paths.source, change); await assert.rejects(buildSite(paths));
   }
-  await cp(path.join(website, 'desk-organizer/project.json'), path.join(paths.source, 'desk-organizer/project.json'));
+  await cp(path.join(website, 'projects/desk-organizer/project.json'), path.join(paths.source, 'projects/desk-organizer/project.json'));
   const job = { id: 'duplicate', commissionedDate: '2026-10-05', title: 'Test', customer: 'Test' };
   await writeFile(path.join(paths.source, 'queue.json'), JSON.stringify({ items: [job,job] }));
   await assert.rejects(buildSite(paths), /queue.json.*duplicate/);
@@ -69,17 +78,17 @@ test('invalid selections, path escapes, missing dates, duplicate IDs and malform
 });
 test('empty content builds successfully and invalid discovered folder names fail', async t => {
   const paths = await fixture(t);
-  for (const folder of ['desk-organizer','lamp-shade','planter','tool-holder']) await unlink(path.join(paths.source, folder, 'project.json'));
+  for (const folder of ['desk-organizer','lamp-shade','planter','tool-holder']) await unlink(path.join(paths.source, 'projects', folder, 'project.json'));
   await writeFile(path.join(paths.source, 'queue.json'), '{"items":[]}');
   assert.deepEqual(await buildSite(paths), { projects: [] });
-  await mkdir(path.join(paths.source, 'Invalid'));
-  await cp(path.join(website, 'desk-organizer/project.json'), path.join(paths.source, 'Invalid/project.json'));
+  await mkdir(path.join(paths.source, 'projects/Invalid'));
+  await cp(path.join(website, 'projects/desk-organizer/project.json'), path.join(paths.source, 'projects/Invalid/project.json'));
   await assert.rejects(buildSite(paths), /Invalid.*folder/);
 });
 test('source symlinks and unsafe output paths are rejected', async t => {
   const paths = await fixture(t);
   await assert.rejects(buildSite({ ...paths, output: paths.root }), /Output must/);
-  try { await symlink(paths.root, path.join(paths.source, 'escape'), process.platform === 'win32' ? 'junction' : 'dir'); }
+  try { await symlink(paths.root, path.join(paths.source, 'projects/escape'), process.platform === 'win32' ? 'junction' : 'dir'); }
   catch (error) { if (error.code === 'EPERM') { t.skip('Symlink creation unavailable on this host'); return; } throw error; }
   await assert.rejects(buildSite(paths), /escape.*symbolic links/);
 });

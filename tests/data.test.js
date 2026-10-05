@@ -46,7 +46,8 @@ test('loader checks HTTP, caches results/failures, retries and protects detail f
   await loadIndex(); await loadIndex(); assert.equal(calls.length, 1);
   await assert.rejects(loadProject('unlisted')); assert.equal(calls.length, 1);
   await assert.rejects(loadProject('test')); await assert.rejects(loadProject('test')); assert.equal(calls.length, 2);
-  broken = false; clearCache('test/project.json'); assert.equal((await loadProject('test')).title, 'Test');
+  assert.ok(calls[1].url.endsWith('/projects/test/project.json'));
+  broken = false; clearCache('projects/test/project.json'); assert.equal((await loadProject('test')).title, 'Test');
   await assert.rejects(loadQueue(), /HTTP 404/);
   assert.ok(calls.every(call => call.options.cache === 'no-cache')); clearCache();
 });

@@ -31,7 +31,7 @@ function photo(folder, entry, eager) {
     frame.querySelector('figcaption').hidden = false;
     frame.querySelector('figcaption').textContent = `Photo unavailable: ${entry.alt}`;
   }, { once: true });
-  img.src = siteURL(`${folder}/${entry.file}`);
+  img.src = siteURL(`projects/${folder}/${entry.file}`);
   return frame;
 }
 function warning(view, text, retry) {
@@ -77,7 +77,7 @@ async function gallery(token) {
   const results = await Promise.allSettled(index.projects.map(loadProject));
   if (token !== navigationToken) return;
   const failed = index.projects.filter((_, i) => results[i].status === 'rejected');
-  const retry = () => { failed.forEach(folder => clearCache(`${folder}/project.json`)); route(); };
+  const retry = () => { failed.forEach(folder => clearCache(`projects/${folder}/project.json`)); route(); };
   if (index.projects.length && failed.length === index.projects.length) {
     show(message('Gallery', 'The projects could not be loaded. Please try again.', { retry }), 'Gallery', token);
     say('The projects could not be loaded.'); return;
@@ -114,7 +114,7 @@ async function detail(folder, token) {
   catch {
     if (token !== navigationToken) return;
     show(message('This project could not be loaded', 'Please try again.', {
-      retry: () => { clearCache(`${folder}/project.json`); route(); }, back: true
+      retry: () => { clearCache(`projects/${folder}/project.json`); route(); }, back: true
     }), 'Project unavailable', token);
     say('This project could not be loaded.'); return;
   }

@@ -16,13 +16,15 @@ Preview opens at `http://localhost:4173/lutra3d/` (the prefix also verifies repo
 
 The included projects, illustrations, logo, and queue are demonstration content. Replace them with your own work before sharing the site. Four sample projects cover all tile layouts; the organizer has an additional detail image. The optional `node scripts/generate-samples.js` command recreates these samples and overwrites their JSON and images.
 
-Add an immediate subfolder of `website/` with a lowercase letters/digits/hyphens name and a `project.json`. See the full contracts in the design document and the sample JSON files. Add the referenced local photos, choose 1–4 `tilePhotos`, and optionally supply HTTPS resource links. Remove the folder or move it outside `website/` to unpublish it. Publication dates determine gallery order, not scheduled publication.
+Add an immediate subfolder of `website/projects/` with a lowercase letters/digits/hyphens name and a `project.json`. For example, put metadata in `website/projects/desk-organizer/project.json` and its referenced local photos beside it. See the full contracts in the design document and the sample JSON files. Choose 1–4 `tilePhotos`, and optionally supply HTTPS resource links. Remove the folder or move it outside `website/projects/` to unpublish it. Publication dates determine gallery order, not scheduled publication.
 
 Optional `links` appear as labeled icon badges on gallery cards and directly below project detail titles. GitHub, Thingiverse, and Printables URLs select their own local icons; other HTTPS resources use a link icon. Labels and order come from JSON. Omitted or empty links hide the badge row. Badges open resources in the same tab, while a card's photos and title open its project details.
 
 Edit `website/queue.json` to add or remove jobs. Names are public. Queue dates are commission dates and the display order does not indicate job priority. Use `{"items":[]}` for an empty queue. Remove all project folders for an empty gallery.
 
 Never edit `projects.json` or `dist/`: the build discovers projects, validates content and local paths, generates a deterministic index, and copies only website resources and referenced project files. CSS and JS URLs receive content versions automatically, including module imports. Validation errors include the relevant file and field; validation finishes before replacing an existing local artifact.
+
+The website root contains the page, `queue.json`, and generated `projects.json`. All project folders, including their `project.json` and photos, live under `website/projects/`. Shared site resources stay in `assets/`, `css/`, and `js/`. Each successful build regenerates the gallery index in both `website/` and `dist/`; it remains a generated, Git-ignored file. The deployment preserves the same folder structure, and existing `#/project/<folder>` routes still work.
 
 ## Publishing
 

@@ -135,5 +135,5 @@ export async function loadProject(folder) {
   validateFolder(folder);
   const index = await loadIndex();
   if (!index.projects.includes(folder)) throw new Error(`Project not listed: ${folder}`);
-  return load(`${folder}/project.json`, validateProject);
+  return load(`projects/${folder}/project.json`, validateProject);
 }

@@ -45,12 +45,12 @@ const samples = [
   { folder: 'tool-holder', title: 'Sample — workshop tool holder', date: '2026-10-03', count: 4, total: 4, color: [113,133,155], shape: 'box' }
 ];
 for (const sample of samples) {
-  await mkdir(`${root}/${sample.folder}`, { recursive: true });
+  await mkdir(`${root}/projects/${sample.folder}`, { recursive: true });
   const photos = [];
   for (let i = 0; i < sample.total; i++) {
     const file = `view-${i + 1}.png`;
     photos.push({ file, alt: `Illustrative ${sample.shape === 'box' ? 'modular holder' : sample.shape === 'lamp' ? 'ribbed lamp shade' : 'geometric planter'} study, view ${i + 1}` });
-    await writeFile(`${root}/${sample.folder}/${file}`, png(640, i === 2 ? 640 : 480, (x, y) => {
+    await writeFile(`${root}/projects/${sample.folder}/${file}`, png(640, i === 2 ? 640 : 480, (x, y) => {
       const xx = x - (i - 1) * .025, shade = Math.round(12 * y);
       let color = [244-shade,242-shade,235-shade];
       if (((xx-.5)/.32)**2 + ((y-.79)/.06)**2 < 1) color = [211,211,202];
@@ -65,7 +65,7 @@ for (const sample of samples) {
       return color;
     }));
   }
-  await writeFile(`${root}/${sample.folder}/project.json`, `${JSON.stringify({
+  await writeFile(`${root}/projects/${sample.folder}/project.json`, `${JSON.stringify({
     title: sample.title, publishedDate: sample.date,
     description: 'Demonstration content for Lutra Design. The images are illustrative studies, not photographs of completed work.\n\nReplace this project with your own description and local photos, or remove its folder to unpublish it.',
     photos, tilePhotos: photos.slice(0, sample.count).map(p => p.file),

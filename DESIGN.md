@@ -31,19 +31,20 @@ website/                       # deployed website root
   js/
     app.js                     # routing, rendering, interaction
     data.js                    # static JSON loading and validation
-  desk-organizer/              # project folder directly under website root
-    project.json
-    front.webp
-    side.webp
-    parts.webp
-  lamp-shade/
-    project.json
-    overview.jpg
+  projects/                    # all project metadata and photos
+    desk-organizer/
+      project.json
+      front.webp
+      side.webp
+      parts.webp
+    lamp-shade/
+      project.json
+      overview.jpg
 ```
 
 Project folders use unique lowercase names with letters, digits, and hyphens. Reserve `assets`, `css`, and `js` for site resources. All resource URLs are relative to the website root so deployment also works beneath a URL prefix.
 
-**Discovery rule:** the publishing script scans immediate, non-reserved subfolders of `website/` for `project.json`. Each matching folder is a published project; folders without that file are ignored. A browser cannot reliably enumerate static folders, so the script generates `projects.json` in the deployment artifact. Never edit the generated index manually. To unpublish a project, remove its folder from `website/` or move it outside that directory.
+**Discovery rule:** the publishing script scans immediate subfolders of `website/projects/` for `project.json`. Each matching folder is a published project; folders without that file are ignored. Keep each project's JSON and referenced photos together under `website/projects/<folder>/`. Keep the generated gallery index at `website/projects.json`. A browser cannot reliably enumerate static folders, so each successful build regenerates `projects.json` in both the website root and the deployment artifact. Never edit the generated index manually. To unpublish a project, remove its folder from `website/projects/` or move it outside that directory. The deployment preserves the `projects/<folder>/` paths.
 
 ## 3. JSON contracts
 
@@ -57,7 +58,7 @@ Project folders use unique lowercase names with letters, digits, and hyphens. Re
 
 `projects` is an array of unique folder names sorted by `publishedDate` descending (newest first). Equal dates sort by folder name ascending, using ASCII lexical order. The browser preserves this order. An empty array is valid.
 
-### Project: `<folder>/project.json`
+### Project: `projects/<folder>/project.json`
 
 ```json
 {
@@ -182,13 +183,13 @@ The publishing script runs locally and in CI using the same command, `node scrip
 
 1. Discover project folders, enforcing the folder-name contract.
 2. Validate all project/queue schemas, actual calendar dates, unique IDs, photo selections, and referenced photo existence. Reject symbolic links and paths escaping the source root. Missing required site assets also fail validation.
-3. Sort projects newest first and generate `projects.json`.
+3. Sort projects newest first and generate `projects.json` in the website root and deployment artifact.
 4. Create a clean `dist/` containing only the HTML entry point, CSS/JS, site assets, `queue.json`, the generated index, and discovered project JSON/referenced photos. Documentation, workflow files, tooling, and unreferenced project files are excluded.
 5. Upload `dist/` as the Pages artifact and deploy it only after validation succeeds. Any validation failure reports the file/field and exits nonzero; the previous published site remains available. Browser fallbacks still handle network or runtime failures.
 
 Use a supported Node.js LTS release with standard-library filesystem operations and ES modules; no npm dependencies are needed. The minimal `package.json` declares `"type": "module"` and a `build` script. Load browser modules using an external `<script type="module" src="js/app.js">`. Local preview runs the same build, then serves `dist/` over HTTP. Opening through `file://` is unsupported because JSON loading requires HTTP/HTTPS.
 
-To publish a project: add its folder, photos, and valid `project.json` under `website/`, then commit to `main`. To update the queue: edit `queue.json` and commit. A manual workflow dispatch can retry publication. Version CSS/JS URLs when their contents change to prevent stale cached assets. No service worker is required.
+To publish a project: add its folder, photos, and valid `project.json` under `website/projects/`, then commit to `main`. To update the queue: edit `queue.json` and commit. A manual workflow dispatch can retry publication. Version CSS/JS URLs when their contents change to prevent stale cached assets. No service worker is required.
 
 ## 8. Implementation sequence and acceptance
 

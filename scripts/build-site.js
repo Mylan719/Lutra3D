@@ -2,7 +2,7 @@ import { lstat, readdir, readFile, mkdir, copyFile, writeFile, rm } from 'node:f
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { validateFolder, reservedFolders, validateProject, validateQueue, sortProjects } from '../website/js/data.js';
+import { validateFolder, validateProject, validateQueue, sortProjects } from '../website/js/data.js';
 
 const repository = fileURLToPath(new URL('../', import.meta.url));
 const inside = (root, target) => {
@@ -57,21 +57,34 @@ export async function buildSite({ source = path.join(repository, 'website'), out
   const projects = [];
   for (const entry of await readdir(source, { withFileTypes: true })) {
     if (entry.isSymbolicLink()) throw new Error(`${entry.name}: symbolic links are not permitted`);
-    if (!entry.isDirectory() || reservedFolders.has(entry.name)) continue;
-    const relative = path.join(entry.name, 'project.json');
+  }
+  await safeEntry(source, 'projects', true);
+  for (const entry of await readdir(path.join(source, 'projects'), { withFileTypes: true })) {
+    if (entry.isSymbolicLink()) throw new Error(`projects/${entry.name}: symbolic links are not permitted`);
+    if (!entry.isDirectory()) continue;
+    const projectDirectory = path.join('projects', entry.name);
+    const relative = path.join(projectDirectory, 'project.json');
     try { await lstat(path.join(source, relative)); } catch (error) { if (error.code === 'ENOENT') continue; throw error; }
     try { validateFolder(entry.name); } catch (error) { throw new Error(`${relative}: ${error.message}`); }
     const project = await json(source, relative, validateProject);
     projects.push({ folder: entry.name, publishedDate: project.publishedDate });
     files.push(relative);
     // Reject symlinks even in unreferenced project content; only selected files are copied.
-    await resourceFiles(source, entry.name);
+    await resourceFiles(source, projectDirectory);
     for (const photo of project.photos) {
-      const relativePhoto = path.join(entry.name, photo.file);
+      const relativePhoto = path.join(projectDirectory, photo.file);
       await safeEntry(source, relativePhoto); files.push(relativePhoto);
     }
   }
   const index = { projects: sortProjects(projects).map(project => project.folder) };
+  const indexJSON = `${JSON.stringify(index, null, 2)}\n`;
+  // The source-root index is generated too; do not follow links or overwrite directories.
+  try { await safeEntry(source, 'projects.json'); }
+  catch (error) {
+    if (!(await readdir(source)).includes('projects.json')) {
+      // A first build has no generated index yet.
+    } else throw error;
+  }
   // All validation completes before replacing the previously built artifact.
   try {
     const stat = await lstat(output);
@@ -79,12 +92,13 @@ export async function buildSite({ source = path.join(repository, 'website'), out
   } catch (error) { if (error.code !== 'ENOENT') throw error; }
   await rm(output, { recursive: true, force: true });
   await mkdir(output, { recursive: true });
+  await mkdir(path.join(output, 'projects'));
   for (const relative of files) {
     const destination = path.join(output, relative);
     await mkdir(path.dirname(destination), { recursive: true });
     await copyFile(path.join(source, relative), destination);
   }
-  await writeFile(path.join(output, 'projects.json'), `${JSON.stringify(index, null, 2)}\n`);
+  await writeFile(path.join(output, 'projects.json'), indexJSON);
   // Version all JS module URLs together so imported modules cannot remain stale.
   const hash = createHash('sha256');
   for (const file of files.filter(file => /\.(?:css|js)$/.test(file)).sort()) hash.update(file).update(await readFile(path.join(source, file)));
@@ -97,6 +111,7 @@ export async function buildSite({ source = path.join(repository, 'website'), out
     const js = await readFile(target, 'utf8');
     await writeFile(target, js.replace(/(from\s+['"])(\.[^'"]+\.js)(['"])/g, `$1$2?v=${version}$3`));
   }
+  await writeFile(path.join(source, 'projects.json'), indexJSON);
   return index;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
