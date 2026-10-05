@@ -8,7 +8,7 @@ const say = message => { announcement.textContent = message; };
 function show(view, title, token) {
   if (token !== navigationToken) return;
   main.replaceChildren(view);
-  document.title = `${title} · Lutra Design`;
+  document.title = `${title} · Lutra 3D`;
   window.scrollTo(0, 0);
   view.querySelector('h1').focus({ preventScroll: true });
 }

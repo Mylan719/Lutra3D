@@ -61,8 +61,8 @@ test('missing photos and required assets fail with file-specific errors', async 
   const paths = await fixture(t);
   await unlink(path.join(paths.source, 'projects/desk-organizer/view-1.png'));
   await assert.rejects(buildSite(paths), /desk-organizer.*view-1.png/);
-  await unlink(path.join(paths.source, 'assets/logo.png'));
-  await assert.rejects(buildSite(paths), /assets.*logo.png/);
+  await unlink(path.join(paths.source, 'assets/brand/logo.svg'));
+  await assert.rejects(buildSite(paths), /assets.*logo.svg/);
 });
 test('invalid selections, path escapes, missing dates, duplicate IDs and malformed JSON fail', async t => {
   const paths = await fixture(t);

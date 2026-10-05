@@ -50,7 +50,7 @@ export async function buildSite({ source = path.join(repository, 'website'), out
   const parentStat = await lstat(path.dirname(source));
   if (parentStat.isSymbolicLink()) throw new Error('Source parent must not be a symbolic link');
   const files = ['index.html', 'queue.json'];
-  for (const file of ['index.html', 'assets/logo.png', 'css/styles.css', 'js/app.js', 'js/data.js']) await safeEntry(source, file);
+  for (const file of ['index.html', 'assets/brand/logo.svg', 'assets/brand/logo-horizontal.svg', 'assets/brand/symbol.svg', 'css/styles.css', 'js/app.js', 'js/data.js']) await safeEntry(source, file);
   for (const icon of ['github', 'thingiverse', 'printables', 'link']) await safeEntry(source, `assets/icons/${icon}.svg`);
   await json(source, 'queue.json', validateQueue);
   for (const folder of ['assets', 'css', 'js']) files.push(...await resourceFiles(source, folder));

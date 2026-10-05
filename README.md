@@ -1,4 +1,4 @@
-# Lutra Design
+# Lutra 3D
 
 A static 3D printing portfolio and upcoming-job queue, implemented from [DESIGN.md](DESIGN.md) with plain HTML, CSS, and JavaScript. There are no runtime or npm dependencies.
 
@@ -14,7 +14,7 @@ Preview opens at `http://localhost:4173/lutra3d/` (the prefix also verifies repo
 
 ## Content
 
-The included projects, illustrations, logo, and queue are demonstration content. Replace them with your own work before sharing the site. Four sample projects cover all tile layouts; the organizer has an additional detail image. The optional `node scripts/generate-samples.js` command recreates these samples and overwrites their JSON and images.
+The included projects, illustrations, and queue are demonstration content. Replace them with your own work before sharing the site. Four sample projects cover all tile layouts; the organizer has an additional detail image. The optional `node scripts/generate-samples.js` command recreates these samples and overwrites their JSON and images; it does not modify the brand assets.
 
 Add an immediate subfolder of `website/projects/` with a lowercase letters/digits/hyphens name and a `project.json`. For example, put metadata in `website/projects/desk-organizer/project.json` and its referenced local photos beside it. See the full contracts in the design document and the sample JSON files. Choose 1–4 `tilePhotos`, and optionally supply HTTPS resource links. Remove the folder or move it outside `website/projects/` to unpublish it. Publication dates determine gallery order, not scheduled publication.
 
@@ -32,4 +32,6 @@ In the GitHub repository select **Settings → Pages → Source → GitHub Actio
 
 The implementation includes hash navigation, direct project URLs, responsive photo collages, accessible loading and retry messages, partial-data warnings, broken-image fallbacks, and plain-text rendering. Tests exercise shared contracts, loader caching and retry, sorting, and publishing safety.
 
-The visual theme is a pastel pixel workshop: lavender grid background, cream panels, plum borders, bold monospace title bars, pink Queue cards, and mint action buttons. Descriptions remain in a readable system font, photographs keep their original colors, and all decorations are local HTML/CSS.
+The moodboard-inspired theme uses plum (#76518f) for the otter identity, links, and resource icons; a lilac grid background; pink-white panels; candy-pink pixel gallery title bars; lavender section bars; and mint controls and date badges. Muted purple borders and offset shadows retain the pixel-window style. Descriptions remain in a readable system font, photographs keep their original colors, and all decorations are local HTML/CSS.
+
+The header uses a horizontal outlined logo on desktop and a square outlined logo on mobile. The otter symbol is also the favicon and footer mark. `website/assets/brand/` contains font-independent SVG assets prepared with `node scripts/prepare-brand.js` from the original `LutraLogo2paths.svg` and `LutraLogoLong.svg`; all three supplied originals remain unchanged in the repository root. The horizontal version uses the supplied long logo's symbol and the outlined letter shapes, avoiding a dependency on the Aspergit font used by the editable originals.

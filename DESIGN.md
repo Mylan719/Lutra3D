@@ -1,4 +1,4 @@
-# Lutra Design — implementation design
+# Lutra 3D — implementation design
 
 ## 1. Scope and constraints
 
@@ -25,7 +25,10 @@ website/                       # deployed website root
   projects.json                # generated index; ignored by Git
   queue.json                   # ordered upcoming jobs
   assets/
-    logo.png                   # Lutra Design logo
+    brand/                     # plum otter brand assets, all outlined SVG
+      logo.svg                 # supplied square artwork
+      logo-horizontal.svg      # horizontal logo with outlined lettering
+      symbol.svg               # otter favicon and footer mark
   css/
     styles.css
   js/
@@ -119,7 +122,7 @@ Use one HTML shell with hash routing. Normal anchor links provide navigation and
 | `#/queue` | Upcoming-job cards |
 | `#/project/<folder>` | Project detail for a folder listed in the index |
 
-The header appears on every view: logo and “Lutra Design” home link on the left, Gallery and Queue links on the right. Gallery remains active on project details; active navigation uses `aria-current="page"`. Clicking the logo opens Gallery. Unknown routes show a short not-found message and a Gallery link.
+The header appears on every view: logo and “Lutra 3D” home link on the left, Gallery and Queue links on the right. Gallery remains active on project details; active navigation uses `aria-current="page"`. Clicking the logo opens Gallery. Unknown routes show a short not-found message and a Gallery link.
 
 ### Gallery
 
@@ -127,7 +130,7 @@ The header appears on every view: logo and “Lutra Design” home link on the l
 - Render each project as a card with a project anchor containing a photo collage and its title, plus optional resource badges below the title. Keep resource anchors outside the project anchor.
 - Collage layouts: one photo fills the tile; two use equal columns; three use a large left photo and two stacked right photos; four use a 2×2 grid.
 - Use CSS Grid with a 4px gap. For three photos, the first spans both rows of the left column; the remaining two fill the right column from top to bottom. Other layouts use JSON order, left to right then top to bottom. Apply a photo-count class in JavaScript; all layout rules stay in CSS. Photos do not overlap.
-- Use a consistent 4:3 collage frame and `object-fit: cover`. Show the complete title above it in a bold lavender pixel-style title bar, wrapping when necessary. Use dark plum square borders, small decorative pixel icons, and a hard offset shadow on gallery cards.
+- Use a consistent 4:3 collage frame and `object-fit: cover`. Show the complete title above it in a bold candy-pink pixel-style title bar, wrapping when necessary. Use muted purple square borders, small decorative pixel icons, and a hard offset shadow on gallery cards.
 - Clicking the photos or title opens its detail route. Optional resource badges open their HTTPS destinations in the same tab. No description appears on the tile.
 - Empty gallery: “No projects yet.”
 
@@ -149,12 +152,12 @@ The header appears on every view: logo and “Lutra Design” home link on the l
 
 ## 5. Visual and accessibility rules
 
-- Pastel pixel-workshop style: pale lavender desktop background with a faint grid, cream content panels, dark plum text and square borders, lavender gallery title bars, pink section and Queue title bars, and mint navigation/button accents. Use crisp offset shadows and small decorative pixel folders and sparkles; no animation.
+- Pastel moodboard palette: plum (#76518f) is the primary logo and link color. Use a lilac (#e6d9f0) desktop background with a faint white grid, pink-white (#fff8fc) content panels, candy-pink (#efc3dd) Gallery and Queue card bars, lavender (#d9c8ef) section bars, and mint (#d2eee8) controls and date badges. Keep dark plum text, muted purple borders, crisp lavender offset shadows, and small decorative pixel folders and sparkles; no animation.
 - System font stack; body text 16px or larger and line height around 1.6. Use bold system monospace for headings, title bars, navigation, and badges, keeping descriptions and job details in a readable system sans-serif. No remote fonts or image filters.
 - Apply the same visual language to the framed header and footer, view headings, project descriptions and photos, resource badges, Queue cards, loading/error panels, and empty states. Decorative icons have no interaction or meaning and are hidden from assistive technology.
 - Center content in a maximum-width 1120px container, with 16px mobile and 24px desktop padding.
 - Gallery: one column below 600px, two from 600px, three from 960px; 20px gaps. Queue uses the same responsive card grid.
-- Header wraps on narrow screens without horizontal scrolling. Keep logo proportions intact, about 40px high.
+- Header wraps on narrow screens without horizontal scrolling. Use a horizontal outlined logo around 280px wide on desktop and the supplied square outlined logo at 72px on mobile. Preserve artwork proportions and recolor the website versions to the primary plum, with no remote font dependencies. Use the otter symbol for the favicon and footer. Keep the editable source logos unchanged.
 - Use semantic `header`, `nav`, `main`, headings, lists, anchors, and buttons; define reusable view/card markup in HTML `<template>` elements.
 - Include a skip-to-content link, visible keyboard focus, sufficient contrast, image alt text, and accessible loading/error announcements.
 - On route changes, update the document title, scroll to the start of the view, and focus its main heading. Browser Back/Forward follows the same behavior.

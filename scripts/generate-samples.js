@@ -31,13 +31,6 @@ const polygon = (x, y, points) => {
   }
   return inside;
 };
-await mkdir(`${root}/assets`, { recursive: true });
-await writeFile(`${root}/assets/logo.png`, png(192, 160, (x, y) => {
-  if (polygon(x,y,[[.5,.05],[.92,.3],[.5,.55],[.08,.3]])) return [83,136,117];
-  if (polygon(x,y,[[.08,.35],[.47,.59],[.47,.94],[.08,.7]])) return [52,105,94];
-  if (polygon(x,y,[[.53,.59],[.92,.35],[.92,.7],[.53,.94]])) return [36,78,65];
-  return [255,255,255,0];
-}));
 const samples = [
   { folder: 'desk-organizer', title: 'Sample — modular desk organizer', date: '2026-10-05', count: 2, total: 3, color: [78,126,112], shape: 'box' },
   { folder: 'lamp-shade', title: 'Sample — ribbed lamp shade', date: '2026-10-04', count: 1, total: 1, color: [177,145,105], shape: 'lamp' },
